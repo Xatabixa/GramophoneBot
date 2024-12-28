@@ -1,4 +1,4 @@
-const player = document.querySelector('.player'),
+const player = document.querySelector('#player'),
       album_img = document.querySelector('#album_img'),
       now_playing_label = document.querySelector('.now_playing_label'),
       music_name_playing = document.querySelector('#music_name_playing'),
