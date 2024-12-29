@@ -61,10 +61,16 @@ body{
     margin-left: 182px;
     margin-top: -20px;
 }
-.song_slider{
-    width: 80%;
-    height: 5px;
-    border-width: 100px;
-    cursor: pointer;
-}
 
+.progress__container {
+    background: white;
+    width: 80%;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .song_slider {
+        height: 10px;
+        background: #FF8949;
+    }
+}
