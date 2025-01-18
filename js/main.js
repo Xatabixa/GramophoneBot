@@ -8,7 +8,8 @@ const player = document.querySelector('#player'),
       imgSrc = document.querySelector('.img__src'),
       playBtn = document.querySelector('.btn_play'),
       prevBtn = document.querySelector('.btn_prev'),
-      nextBtn = document.querySelector('.btn_next')
+      nextBtn = document.querySelector('.btn_next'),
+      circle = document.querySelector('.progress__circle')
 
 //Названия песен
 const songs = ['5opka - Сен-Тропе', '5opka - Спасибо босс']
@@ -74,8 +75,13 @@ prevBtn.addEventListener('click', prevSong)
 // Progress bar
 function updateProgress(e) {
     const {duration, currentTime} = e.srcElement
-    const ProgressPercent = (currentTime / duration) * 100
-    progress.style.width = `${ProgressPercent}%`
+    const progressPercent = (currentTime / duration) * 100
+    progress.style.width = `${progressPercent}%`
+    
+    // Обновляем позицию круга
+    const containerRect = progressContainer.getBoundingClientRect();
+    const circlePosition = containerRect.left + (containerRect.width * progressPercent / 100);
+    circle.style.left = `${circlePosition}px`;
 }
 audio.addEventListener('timeupdate', updateProgress)
 
@@ -84,10 +90,37 @@ function setProgress(e) {
     const width = this.clientWidth
     const clickX = e.offsetX
     const duration = audio.duration
+    const percent = (clickX / width) * 100
 
+    progress.style.width = `${percent}%`
+    progressContainer.style.setProperty('--circle-left', `${percent}%`)
     audio.currentTime = (clickX / width) * duration
 }
 progressContainer.addEventListener('click', setProgress)
 
 // Autoplay
 audio.addEventListener('ended', nextSong)
+
+const isDragging = false;
+
+circle.addEventListener('mousedown', () => {
+    isDragging = true;
+})
+
+document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        const rect = progressContainer.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        x = Math.max(0, Math.min(x, progressContainer.clientWidth));
+        
+        const percent = (x / progressContainer.clientWidth) * 100;
+        progress.style.width = `${percent}%`
+        progressContainer.style.setProperty('--circle-left', `${percent}%`)
+        
+        audio.currentTime = (x / progressContainer.clientWidth) * audio.duration;
+    }
+})
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+})

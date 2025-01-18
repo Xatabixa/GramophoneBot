@@ -63,14 +63,32 @@ body{
 }
 
 .progress__container {
+    position: relative;
     background: white;
     width: 80%;
     height: 10px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    .song_slider {
-        height: 10px;
-        background: #FF8949;
-    }
+    margin-left: 40px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.song_slider {
+    position: absolute;
+    background: #FF8949;
+    width: 0;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.progress__circle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #FF8949;
+    border-radius: 50%;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -25%);
+    cursor: grab;
+    z-index: 2;
 }
